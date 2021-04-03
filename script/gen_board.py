@@ -57,15 +57,20 @@ def main():
     dwg = svgwrite.Drawing('deltille_board.svg',
                            size=('210mm', '297mm'),
                            viewBox=('0 0 210 297'))
-    tagcodes = tag_family.getT16h5()
 
     # draw background
     dwg.add(dwg.rect(insert=(0, 0), size=(210, 297), fill='white'))
+
 
     col_size = 6
     rol_size = 10
     triangle_size = 30.0
     triangle_height = triangle_size * math.sqrt(3) / 2.0
+
+    tagcodes = tag_family.getT25h9()
+    font_size = 5
+    style="text-anchor:middle; font-size:%i" % font_size
+    dwg.add(dwg.text("Tag25h9", (105, 290), style=style))
 
     for r in range(rol_size):
         shift = 0
