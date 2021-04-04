@@ -37,7 +37,7 @@
 #endif
 
 // #define DEBUG_INDEXING 1            // levels 1..6
-// #define DEBUG_REINDEXING 1          // levels 1..3
+// #define DEBUG_REINDEXING 2          // levels 1..3
 // #define DEBUG_TIMING
 
 namespace orp {

@@ -1010,10 +1010,10 @@ bool TaggedBoardIndexer::detectDeltaTag(const cv::Mat &img,
 #ifdef DEBUG_REINDEXING
       cv::line(dbg, cv::Point(p[0].x * 65536, p[0].y * 65536),
                cv::Point(p[1].x * 65536, p[1].y * 65536), cv::Scalar(0, 0, 255),
-               2, CV_AA, 16);
+               2, cv::LINE_AA, 16);
       cv::line(dbg, cv::Point(p[0].x * 65536, p[0].y * 65536),
                cv::Point(p[2].x * 65536, p[2].y * 65536), cv::Scalar(0, 255, 0),
-               2, CV_AA, 16);
+               2, cv::LINE_AA, 16);
 #endif
     } else {
       // unknown tag... ignore it...
@@ -1064,6 +1064,7 @@ void TaggedBoardIndexer::fixTriangleBoards(
     }
     obs.board_id = -1;
     obs.indexed = false;
+    std::cout << "detected tags: " << obs.tags.size() << std::endl;
 
     if (obs.tags.size() == 0)
       // no tags... no worries about consistency and indexing...
@@ -1128,21 +1129,25 @@ void TaggedBoardIndexer::fixTriangleBoards(
     const BoardDefinition &def = board_defs[obs.board_id];
     // transform points to match the definition board and reorder corners to
     // match
+    // std::cout << "m\n" << m << std::endl;
+    // std::cout << m.size() << std::endl;
     cv::Mat result(def.rows, def.cols, CV_32S);
     result.setTo(cv::Scalar(-1));
+    // std::cout << "result" << result << std::endl;
     for (int r = 0; r < obs.board.rows; ++r) {
       for (int c = 0; c < obs.board.cols; ++c) {
         if (m.at<int>(r, c) != -1) {
           int r0, c0;
           transformToBoardTriangleLocation(best_r, r - oy, c - ox, def.rows, r0,
                                            c0);
-          if (r0 < 0 || c0 < 0 || r0 >= result.rows || c0 >= result.cols ||
-              r0 + c0 >= def.rows)
+          // remove def.row condition
+          if (r0 < 0 || c0 < 0 || r0 >= result.rows || c0 >= result.cols)
             continue;
           result.at<int>(r0, c0) = m.at<int>(r, c);
         }
       }
     }
+    // std::cout << "result1 " << result << std::endl;
     int cnt = 0;
     std::vector<cv::Point2f> reordered(result.size().area(),
                                        cv::Point2f(-1, -1));

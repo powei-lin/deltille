@@ -14,4 +14,7 @@ target_link_libraries(main deltille boost)
 add_executable(ch_test charuco_test.cpp)
 target_link_libraries(ch_test deltille boost)
 
+add_executable(board_detect board_detect.cpp)
+target_link_libraries(board_detect deltille)
+
 install(TARGETS deltille_detector DESTINATION ${CMAKE_INSTALL_BINDIR})
