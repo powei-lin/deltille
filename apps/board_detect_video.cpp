@@ -22,10 +22,11 @@ int main(int argc, char **argv) {
   cout << v1.get(CAP_PROP_FRAME_WIDTH) << endl;
   // return 0;
   orp::calibration::TaggedBoardIndexer _indexer;
-  _indexer.loadFromJson("../script/board.json");
+  _indexer.loadFromJson("../../script/board.json");
   cout << _indexer.board_defs.size() << endl;
-  _indexer.board_defs[0].corner_locations = Mat(11, 11, CV_32FC3);
-  // _indexer.board_defs[0].corner_locations.at<Vec3f>(2,3)
+  // _indexer.board_defs[0].corner_locations = Mat(11, 11, CV_32FC3, Vec3f(0,0,0));
+
+  // _indexer.board_defs[0].corner_locations.at<Vec3f>(1, 5) = Vec3f(1,2,4);
 
   // return 0;
 
@@ -35,7 +36,7 @@ int main(int argc, char **argv) {
 
     Mat img, img1, colored;
     v1 >> colored;
-    resize(colored, colored, Size(), 0.25, 0.25);
+    resize(colored, colored, Size(), 0.5, 0.5);
 
     cvtColor(colored, img, COLOR_BGR2GRAY);
     FindBoards<orp::calibration::MonkeySaddlePointSpherical>(img, board_size,
@@ -47,15 +48,24 @@ int main(int argc, char **argv) {
       // if(b.indexed)
         for (size_t i = 0; i < b.corner_locations.size(); ++i) {
           const auto &c = b.corner_locations[i];
+          const int row = i / b.board.cols;
+          const int col = i % b.board.cols;
+          const int id = *b.board.ptr<int>(row, col);
+          if(id == -1)
+            continue;
           circle(colored, c, 3, Scalar(0, 0, 255), -1);
-          int row = i / b.board.cols;
-          int col = i % b.board.cols;
-          putText(colored, to_string(*b.board.ptr<int>(row, col)), c, 1, 1,
+          // cout << id << " ";
+          Vec3f p3d = *_indexer.board_defs[0].corner_locations.ptr<Vec3f>(row, col);
+          putText(colored, to_string(id), c, 1, 1,
                   Scalar(0, 255, 0));
+          // putText(colored, to_string(p3d[0]), c, 1, 1,
+                  // Scalar(0, 255, 0));
+          // putText(colored, to_string(p3d[1]), c, 1, 1,
+          //         Scalar(0, 255, 0));
         }
     }
     imshow("color", colored);
-    waitKey(0);
+    waitKey(1);
   }
 
   return 0;

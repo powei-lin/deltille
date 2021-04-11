@@ -638,8 +638,19 @@ void TaggedBoardIndexer::loadFromJson(const std::string &filename){
         const int by = tag["board_y"].get<int>();
         tag_to_board_map[id] = make_pair(b, cv::Point2i(bx, by));
       }
-  // _indexer.tag_to_board_map[2] = make_pair(0, Point2i(5, 8));
+      board_defs[b].corner_locations = cv::Mat(chessboard_row, chessboard_col, CV_32FC3, cv::Vec3f(0,0,0));
     }
+    for(const auto &c3d:j["corner3d"]){
+      const int b = c3d["b"].get<int>();
+      const int r = c3d["row"].get<int>();
+      const int c = c3d["col"].get<int>();
+      const float x = c3d["x"].get<float>();
+      const float y = c3d["y"].get<float>();
+      const float z = c3d["z"].get<float>();
+      board_defs[b].corner_locations.at<cv::Vec3f>(r, c) = cv::Vec3f(x,y,z);
+
+    }
+
   }
   infile.close();
 }
