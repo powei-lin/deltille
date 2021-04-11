@@ -116,6 +116,8 @@ struct TaggedBoardIndexer {
     chessboard_col = 13;
   }
 
+  void loadFromJson(const std::string &filename);
+
   bool hasDefinitions() const { return board_defs.size() > 0; }
 
   void addBoardDefinitions(const std::string &filename) {

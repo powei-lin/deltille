@@ -17,4 +17,7 @@ target_link_libraries(ch_test deltille boost)
 add_executable(board_detect board_detect.cpp)
 target_link_libraries(board_detect deltille)
 
+add_executable(board_detect_v board_detect_video.cpp)
+target_link_libraries(board_detect_v deltille)
+
 install(TARGETS deltille_detector DESTINATION ${CMAKE_INSTALL_BINDIR})

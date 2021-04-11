@@ -16,34 +16,32 @@ int main(int argc, char **argv) {
   // glob(pattern+
       //  "/*.png",
       //  file_names);
-  // VideoWriter vw;
-  VideoWriter writer("VideoTest.mov", VideoWriter::fourcc('a', 'v', 'c', '1'), 30.0, Size(848, 800));
 
   glob("/Users/powei/code/project/Intel-Realsense-T265-opencv/build/imgs/cam0/"
        "*.png",
        file_names);
   // file_names.resize(30);
   orp::calibration::TaggedBoardIndexer _indexer;
-  // _indexer.chessboard_col = 11;
-  // _indexer.chessboard_row = 11;
+  _indexer.chessboard_col = 11;
+  _indexer.chessboard_row = 11;
   cout << _indexer.board_defs.size() << endl;
   _indexer.board_defs.resize(1);
   // _indexer.board_defs[0].border_bits = 1.0;
   _indexer.board_defs[0].cols = 11;
   _indexer.board_defs[0].rows = 11;
-  _indexer.board_defs[0].tag_locations[1] = Point2i(3, 8);
-  _indexer.board_defs[0].tag_locations[2] = Point2i(3, 8);
+  // _indexer.board_defs[0].tag_locations[1] = Point2i(3, 8);
+  // _indexer.board_defs[0].tag_locations[2] = Point2i(3, 8);
   // _indexer.board_defs[0].detector =
   _indexer.detectors["t16h5"] =
       make_shared<orp::calibration::TagFamily>(AprilTags::tagCodes16h5, 1.0);
-  _indexer.tag_to_board_map[1] = make_pair(0, Point2i(3, 8));
-  _indexer.tag_to_board_map[2] = make_pair(0, Point2i(5, 8));
-  _indexer.tag_to_board_map[3] = make_pair(0, Point2i(3, 6));
-  _indexer.tag_to_board_map[4] = make_pair(0, Point2i(5, 6));
-  _indexer.tag_to_board_map[7] = make_pair(0, Point2i(5, 4));
-  _indexer.tag_to_board_map[8] = make_pair(0, Point2i(7, 4));
-  _indexer.tag_to_board_map[9] = make_pair(0, Point2i(5, 2));
-  _indexer.tag_to_board_map[10] = make_pair(0, Point2i(7, 2));
+  // _indexer.tag_to_board_map[1] = make_pair(0, Point2i(3, 8));
+  // _indexer.tag_to_board_map[2] = make_pair(0, Point2i(5, 8));
+  // _indexer.tag_to_board_map[3] = make_pair(0, Point2i(3, 6));
+  // _indexer.tag_to_board_map[4] = make_pair(0, Point2i(5, 6));
+  // _indexer.tag_to_board_map[7] = make_pair(0, Point2i(5, 4));
+  // _indexer.tag_to_board_map[8] = make_pair(0, Point2i(7, 4));
+  // _indexer.tag_to_board_map[9] = make_pair(0, Point2i(5, 2));
+  // _indexer.tag_to_board_map[10] = make_pair(0, Point2i(7, 2));
 
   // return 0;
 
@@ -59,7 +57,7 @@ int main(int argc, char **argv) {
     _indexer.fixTriangleBoards(img, boards);
 
     for (auto &b : boards) {
-      // cout << b.board << endl;
+      cout << b.board << endl;
       // if(b.indexed)
         for (size_t i = 0; i < b.corner_locations.size(); ++i) {
           const auto &c = b.corner_locations[i];
@@ -71,10 +69,8 @@ int main(int argc, char **argv) {
         }
     }
     imshow("color", colored);
-    writer << colored;
     waitKey(1);
   }
-  writer.release();
 
   return 0;
 }

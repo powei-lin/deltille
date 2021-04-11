@@ -55,7 +55,7 @@ int main() {
     _indexer.chessboard_col = 24;
     _indexer.chessboard_row = 12;
 
-    const cv::Size board_size(_indexer.chessboard_col, _indexer.chessboard_row);
+    const cv::Size board_size;//(_indexer.chessboard_col, _indexer.chessboard_row);
     std::vector<orp::calibration::BoardObservation> boards;
     FindBoards<orp::calibration::MonkeySaddlePointSpherical>(img, board_size,
                                                              boards);

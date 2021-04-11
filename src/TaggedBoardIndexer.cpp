@@ -25,6 +25,7 @@
 
 #include <sstream>
 #include <string>
+#include <fstream>
 
 #include <deltille/GrayModel.h>
 #include <deltille/Quadangle.h>
@@ -36,6 +37,8 @@
 #include <deltille/apriltags/Tag25h9.h>
 #include <deltille/apriltags/Tag36h11.h>
 #include <deltille/apriltags/Tag36h9.h>
+
+#include <thirdparty/json.hpp>
 
 namespace orp {
 namespace calibration {
@@ -609,6 +612,36 @@ int fixFullCheckerBoardOrientations(const cv::Mat &img,
     if (fixFullCheckerBoardOrientation(img, board_size, boards[b]))
       ++boards_fixed;
   return boards_fixed;
+}
+
+void TaggedBoardIndexer::loadFromJson(const std::string &filename){
+  using namespace std;
+  ifstream infile(filename);
+  if(infile.is_open()){
+    nlohmann::ordered_json j;
+    infile >> j;
+    chessboard_col = j["cols"].get<int>();
+    chessboard_row = j["rows"].get<int>();
+
+    if(j["tag_code"].get<string>() == "t16h5"){
+      detectors["t16h5"] =
+        make_shared<orp::calibration::TagFamily>(AprilTags::tagCodes16h5, 1.0);
+    }
+
+    board_defs.resize(j["board"].size());
+    for(int b = 0 ; b < j["board"].size(); ++b){
+      board_defs[b].cols = chessboard_col;
+      board_defs[b].rows = chessboard_row;
+      for(const auto &tag:j["board"][to_string(b)]){
+        const int id = tag["id"].get<int>();
+        const int bx = tag["board_x"].get<int>();
+        const int by = tag["board_y"].get<int>();
+        tag_to_board_map[id] = make_pair(b, cv::Point2i(bx, by));
+      }
+  // _indexer.tag_to_board_map[2] = make_pair(0, Point2i(5, 8));
+    }
+  }
+  infile.close();
 }
 
 void TaggedBoardIndexer::fixCheckerBoards(

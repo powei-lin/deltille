@@ -1,0 +1,49 @@
+{
+    "tag_code": "t16h5",
+    "cols": 11,
+    "rows": 11,
+    "board": {
+        "0": {
+            "0": {
+                "id": 1,
+                "board_x": 3,
+                "board_y": 8
+            },
+            "1": {
+                "id": 2,
+                "board_x": 5,
+                "board_y": 8
+            },
+            "2": {
+                "id": 3,
+                "board_x": 3,
+                "board_y": 6
+            },
+            "3": {
+                "id": 4,
+                "board_x": 5,
+                "board_y": 6
+            },
+            "4": {
+                "id": 7,
+                "board_x": 5,
+                "board_y": 4
+            },
+            "5": {
+                "id": 8,
+                "board_x": 7,
+                "board_y": 4
+            },
+            "6": {
+                "id": 9,
+                "board_x": 5,
+                "board_y": 2
+            },
+            "7": {
+                "id": 10,
+                "board_x": 7,
+                "board_y": 2
+            }
+        }
+    }
+}
