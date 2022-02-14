@@ -72,7 +72,7 @@
 
 #pragma once
 
-namespace AprilTags {
+namespace Deltille {
 
 const unsigned long long t36h11[] = {
     0xd5d628584LL, 0xd97f18b49LL, 0xdd280910eLL, 0xe479e9c98LL, 0xebcbca822LL,

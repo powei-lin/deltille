@@ -38,7 +38,7 @@
 #include <deltille/apriltags/Tag36h11.h>
 #include <deltille/apriltags/Tag36h9.h>
 
-#include <thirdparty/json.hpp>
+// #include <thirdparty/json.hpp>
 
 namespace orp {
 namespace calibration {
@@ -46,20 +46,20 @@ namespace calibration {
 using DelTag = Triangle<cv::Point2f>;
 using AprilTag = Quadangle<cv::Point2f>;
 
-const AprilTags::TagCodes &tagFamilyNameToCodes(const std::string &family) {
+const Deltille::TagCodes &tagFamilyNameToCodes(const std::string &family) {
   if (family == "t16h5")
-    return AprilTags::tagCodes16h5;
+    return Deltille::tagCodes16h5;
   else if (family == "t25h7")
-    return AprilTags::tagCodes25h7;
+    return Deltille::tagCodes25h7;
   else if (family == "t25h9")
-    return AprilTags::tagCodes25h9;
+    return Deltille::tagCodes25h9;
   else if (family == "t36h9")
-    return AprilTags::tagCodes36h9;
+    return Deltille::tagCodes36h9;
   else if (family == "t36h11")
-    return AprilTags::tagCodes36h11;
+    return Deltille::tagCodes36h11;
   else {
     printf("Unknown family %s, defaulting to t36h11\n", family.c_str());
-    return AprilTags::tagCodes36h11;
+    return Deltille::tagCodes36h11;
   }
 }
 
@@ -615,44 +615,44 @@ int fixFullCheckerBoardOrientations(const cv::Mat &img,
 }
 
 void TaggedBoardIndexer::loadFromJson(const std::string &filename){
-  using namespace std;
-  ifstream infile(filename);
-  if(infile.is_open()){
-    nlohmann::ordered_json j;
-    infile >> j;
-    chessboard_col = j["cols"].get<int>();
-    chessboard_row = j["rows"].get<int>();
+  // using namespace std;
+  // ifstream infile(filename);
+  // if(infile.is_open()){
+  //   nlohmann::ordered_json j;
+  //   infile >> j;
+  //   chessboard_col = j["cols"].get<int>();
+  //   chessboard_row = j["rows"].get<int>();
 
-    if(j["tag_code"].get<string>() == "t16h5"){
-      detectors["t16h5"] =
-        make_shared<orp::calibration::TagFamily>(AprilTags::tagCodes16h5, 1.0);
-    }
+  //   if(j["tag_code"].get<string>() == "t16h5"){
+  //     detectors["t16h5"] =
+  //       make_shared<orp::calibration::TagFamily>(Deltille::tagCodes16h5, 1.0);
+  //   }
 
-    board_defs.resize(j["board"].size());
-    for(int b = 0 ; b < j["board"].size(); ++b){
-      board_defs[b].cols = chessboard_col;
-      board_defs[b].rows = chessboard_row;
-      for(const auto &tag:j["board"][to_string(b)]){
-        const int id = tag["id"].get<int>();
-        const int bx = tag["board_x"].get<int>();
-        const int by = tag["board_y"].get<int>();
-        tag_to_board_map[id] = make_pair(b, cv::Point2i(bx, by));
-      }
-      board_defs[b].corner_locations = cv::Mat(chessboard_row, chessboard_col, CV_32FC3, cv::Vec3f(0,0,0));
-    }
-    for(const auto &c3d:j["corner3d"]){
-      const int b = c3d["b"].get<int>();
-      const int r = c3d["row"].get<int>();
-      const int c = c3d["col"].get<int>();
-      const float x = c3d["x"].get<float>();
-      const float y = c3d["y"].get<float>();
-      const float z = c3d["z"].get<float>();
-      board_defs[b].corner_locations.at<cv::Vec3f>(r, c) = cv::Vec3f(x,y,z);
+  //   board_defs.resize(j["board"].size());
+  //   for(int b = 0 ; b < j["board"].size(); ++b){
+  //     board_defs[b].cols = chessboard_col;
+  //     board_defs[b].rows = chessboard_row;
+  //     for(const auto &tag:j["board"][to_string(b)]){
+  //       const int id = tag["id"].get<int>();
+  //       const int bx = tag["board_x"].get<int>();
+  //       const int by = tag["board_y"].get<int>();
+  //       tag_to_board_map[id] = make_pair(b, cv::Point2i(bx, by));
+  //     }
+  //     board_defs[b].corner_locations = cv::Mat(chessboard_row, chessboard_col, CV_32FC3, cv::Vec3f(0,0,-1));
+  //   }
+  //   for(const auto &c3d:j["corner3d"]){
+  //     const int b = c3d["b"].get<int>();
+  //     const int r = c3d["row"].get<int>();
+  //     const int c = c3d["col"].get<int>();
+  //     const float x = c3d["x"].get<float>();
+  //     const float y = c3d["y"].get<float>();
+  //     const float z = c3d["z"].get<float>();
+  //     board_defs[b].corner_locations.at<cv::Vec3f>(r, c) = cv::Vec3f(x,y,z);
 
-    }
+  //   }
 
-  }
-  infile.close();
+  // }
+  // infile.close();
 }
 
 void TaggedBoardIndexer::fixCheckerBoards(

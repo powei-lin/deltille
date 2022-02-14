@@ -22,9 +22,6 @@ set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake")
 
 include(GNUInstallDirs)
 
-option(BUILD_APPS "Build the executable to detect and write corners to disk. Requires Boost" OFF)
-option(WITH_MATLAB "Build Matlab buindings" OFF)
-
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
@@ -36,19 +33,4 @@ endif()
 
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-if(MSVC)
-  add_compile_options(/W3 /WX)
-else()
-  add_compile_options(-Wall)
-endif()
-
 add_subdirectory(src)
-
-if(BUILD_APPS)
- add_subdirectory(apps)
-endif()
-
-if(WITH_MATLAB)
-  include(ExternalProject)
-  add_subdirectory(matlab)
-endif()

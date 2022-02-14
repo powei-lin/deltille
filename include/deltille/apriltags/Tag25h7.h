@@ -59,7 +59,7 @@
 
 #pragma once
 
-namespace AprilTags {
+namespace Deltille {
 
 const unsigned long long t25h7[] = {
     0x4b770dLL,  0x11693e6LL, 0x1a599abLL, 0xc3a535LL,  0x152aafaLL,

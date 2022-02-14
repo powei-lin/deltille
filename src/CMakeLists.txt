@@ -26,7 +26,7 @@ add_library(deltille
   TaggedBoardIndexer.cpp)
 
 target_include_directories(deltille PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include>
   $<INSTALL_INTERFACE:include>
   PRIVATE ${CMAKE_SOURCE_DIR}/src)
 

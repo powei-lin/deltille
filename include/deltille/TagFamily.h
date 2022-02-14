@@ -22,7 +22,7 @@
 #include <string>
 #include <vector>
 
-namespace AprilTags {
+namespace Deltille {
 
 class TagCodes {
 public:
@@ -82,7 +82,7 @@ class TagFamily {
 public:
   //! The codes array is not copied internally and so must not be modified
   //! externally.
-  TagFamily(const AprilTags::TagCodes &tagCodes, const float blackBorder);
+  TagFamily(const Deltille::TagCodes &tagCodes, const float blackBorder);
 
   void setErrorRecoveryBits(int b);
 
