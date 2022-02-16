@@ -1108,7 +1108,7 @@ void TaggedBoardIndexer::fixTriangleBoards(
     }
     obs.board_id = -1;
     obs.indexed = false;
-    std::cout << "detected tags: " << obs.tags.size() << std::endl;
+    // std::cout << "detected tags: " << obs.tags.size() << std::endl;
 
     if (obs.tags.size() == 0)
       // no tags... no worries about consistency and indexing...
