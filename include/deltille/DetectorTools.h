@@ -29,6 +29,7 @@
 #include <algorithm>
 #include <opencv2/opencv.hpp>
 #include <vector>
+#include <numeric>
 
 #include <deltille/TagFamily.h>
 
